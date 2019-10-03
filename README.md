@@ -1,10 +1,3 @@
-
-
-|Lake Track|
-|:--------:|
-|[![Lake Track](images/lake_track.png)](https://www.youtube.com/watch?v=GJQxD56HJE0&feature=youtu.be)|
-|[YouTube Link](https://www.youtube.com/watch?v=GJQxD56HJE0&feature=youtu.be)|
-
 ## Project Description
 
 In this project, I use a neural network to clone car driving behavior.
@@ -15,34 +8,36 @@ The network is based on [The NVIDIA model](https://devblogs.nvidia.com/parallelf
 
 As image processing is involved, the model is using convolutional layers for automated feature engineering.  
 
-### Files included
+## Image Augumentation
 
-- `model.py` The script used to create and train the model.
-- `drive.py` The script to drive the car. You can feel free to resubmit the original `drive.py` or make modifications and submit your modified version.
-- `utils.py` The script to provide useful functionalities (i.e. image preprocessing and augumentation)
-- `model.h5` The model weights.
+For training, I used the following augumentation technique along with Python generator to generate unlimited number of images:
 
-Note: I updated drive.py to preprocess the camera image to fit the model input shape. This is because the model input shape is different from image size.
+- Randomly choose right, left or center images.
+- For left image, steering angle is adjusted by +0.2
+- For right image, steering angle is adjusted by -0.2
+- Randomly flip image left/right
+- Randomly translate image horizontally with steering angle adjustment (0.002 per pixel shift)
+- Randomly translate image vertically
+- Randomly added shadows
+- Randomly altering image brightness (lighter or darker)
 
-## Quick Start
+Using the left/right images is useful to train the recovery driving scenario.  The horizontal translation is useful for difficult curve handling (i.e. the one after the bridge).
 
-### Run the pretrained model
+### Examples of Augmented Images
 
-Start up [the Udacity self-driving simulator], choose a scene and press the Autonomous Mode button.  Then, run the model as follows:
+The following is the example transformations:
 
-```python
-python drive.py model.h5
-```
+**Center Image**
 
-### To train the model
+![Center Image](images/center.png)
 
-You'll need the data folder which contains the training images.
+**Flipped Image**
 
-```python
-python model.py
-```
+![Flipped Image](images/flip.png)
 
-This will generate a file `model-<epoch>.h5` whenever the performance in the epoch is better than the previous best.  For example, the first epoch will generate a file called `model-001.h5`.
+**Translated Image**
+
+![Translated Image](images/trans.png)
 
 ## Model Architecture Design
 
@@ -90,38 +85,6 @@ The below is a model structure output from the Keras which gives more details on
 |dense_4 (Dense)                 |(None, 1)         |11      |dense_3          |
 |                                |**Total params**  |252219  |                 |
 
-
-## Image Augumentation
-
-For training, I used the following augumentation technique along with Python generator to generate unlimited number of images:
-
-- Randomly choose right, left or center images.
-- For left image, steering angle is adjusted by +0.2
-- For right image, steering angle is adjusted by -0.2
-- Randomly flip image left/right
-- Randomly translate image horizontally with steering angle adjustment (0.002 per pixel shift)
-- Randomly translate image vertically
-- Randomly added shadows
-- Randomly altering image brightness (lighter or darker)
-
-Using the left/right images is useful to train the recovery driving scenario.  The horizontal translation is useful for difficult curve handling (i.e. the one after the bridge).
-
-### Examples of Augmented Images
-
-The following is the example transformations:
-
-**Center Image**
-
-![Center Image](images/center.png)
-
-**Flipped Image**
-
-![Flipped Image](images/flip.png)
-
-**Translated Image**
-
-![Translated Image](images/trans.png)
-
 ## Data Preprocessing
 The purpose of Data Preprocessing is to fit the augmented pictures into the model. Preprocessing happens after augmentation. It chops irrelevant part of the picture, resize the picture for model, and normalize the image data for better result.
 
@@ -153,7 +116,7 @@ Unfortunately, I did not have much GPU time to train a model with additional dat
 
 The model can drive the course without bumping into the side ways.
 
-- [The Lake Track - YouTube Link](https://www.youtube.com/watch?v=GJQxD56HJE0&feature=youtu.be)
-
-## References
-- NVIDIA model: https://devblogs.nvidia.com/parallelforall/deep-learning-self-driving-cars/
+|Lake Track|
+|:--------:|
+|[![Lake Track](images/lake_track.png)](https://www.youtube.com/watch?v=GJQxD56HJE0&feature=youtu.be)|
+|[YouTube Link](https://www.youtube.com/watch?v=GJQxD56HJE0&feature=youtu.be)|
